@@ -52,7 +52,7 @@ class DateTime(datetime.datetime, Date):
     min: ClassVar[DateTime]
     max: ClassVar[DateTime]
 
-    # Formats
+    # Форматы
 
     _FORMATS: ClassVar[dict[str, str | Callable[[datetime.datetime], str]]] = {
         "atom": ATOM,
@@ -97,7 +97,7 @@ class DateTime(datetime.datetime, Date):
         raise_on_unknown_times: bool = False,
     ) -> Self:
         """
-        Creates a new DateTime instance from a specific date and time.
+        Создает новый экземпляр DateTime с определенной датой и временем.
         """
         if tz is not None:
             tz = pendulum._safe_timezone(tz)
@@ -159,7 +159,7 @@ class DateTime(datetime.datetime, Date):
         cls, tz: str | Timezone | FixedTimezone | datetime.tzinfo | None = None
     ) -> Self:
         """
-        Get a DateTime instance for the current date and time.
+        Получает экземпляр DateTime для текущей даты и времени.
         """
         if tz is None or tz == "local":
             dt = datetime.datetime.now(local_timezone())
@@ -185,7 +185,7 @@ class DateTime(datetime.datetime, Date):
     @classmethod
     def utcnow(cls) -> Self:
         """
-        Get a DateTime instance for the current date and time in UTC.
+        Получает экземпляр DateTime для текущей даты и времени в UTC.
         """
         return cls.now(UTC)
 
@@ -237,8 +237,7 @@ class DateTime(datetime.datetime, Date):
 
     @property
     def int_timestamp(self) -> int:
-        # Workaround needed to avoid inaccuracy
-        # for far into the future datetimes
+        # Обходной путь, необходимый для предотвращения неточностей в будущих datetime.
         dt = datetime.datetime(
             self.year,
             self.month,
@@ -316,7 +315,7 @@ class DateTime(datetime.datetime, Date):
 
     def naive(self) -> Self:
         """
-        Return the DateTime without timezone information.
+        Возвращает DateTime без информации о часовом поясе.
         """
         return self.__class__(
             self.year,
@@ -330,7 +329,7 @@ class DateTime(datetime.datetime, Date):
 
     def on(self, year: int, month: int, day: int) -> Self:
         """
-        Returns a new instance with the current date set to a different date.
+        Возвращает новый экземпляр с текущей датой, установленной на другую дату.
         """
         return self.set(year=int(year), month=int(month), day=int(day))
 
@@ -338,7 +337,7 @@ class DateTime(datetime.datetime, Date):
         self, hour: int, minute: int = 0, second: int = 0, microsecond: int = 0
     ) -> Self:
         """
-        Returns a new instance with the current time to a different time.
+        Возвращает новый экземпляр с текущим временем в другое время.
         """
         return self.set(
             hour=hour, minute=minute, second=second, microsecond=microsecond
@@ -346,7 +345,7 @@ class DateTime(datetime.datetime, Date):
 
     def in_timezone(self, tz: str | Timezone | FixedTimezone) -> Self:
         """
-        Set the instance's timezone from a string or object.
+        Устанавливает часовой пояс экземпляра из строки или объекта.
         """
         tz = pendulum._safe_timezone(tz)
 
@@ -358,7 +357,7 @@ class DateTime(datetime.datetime, Date):
 
     def in_tz(self, tz: str | Timezone | FixedTimezone) -> Self:
         """
-        Set the instance's timezone from a string or object.
+        Устанавливает часовой пояс экземпляра из строки или объекта.
         """
         return self.in_timezone(tz)
 
@@ -366,37 +365,37 @@ class DateTime(datetime.datetime, Date):
 
     def to_time_string(self) -> str:
         """
-        Format the instance as time.
+        Форматирует экземпляр как время.
         """
         return self.format("HH:mm:ss")
 
     def to_datetime_string(self) -> str:
         """
-        Format the instance as date and time.
+        Форматирует экземпляр как дату и время.
         """
         return self.format("YYYY-MM-DD HH:mm:ss")
 
     def to_day_datetime_string(self) -> str:
         """
-        Format the instance as day, date and time (in english).
+        Форматирует экземпляр как день, дату и время (на английском языке).
         """
         return self.format("ddd, MMM D, YYYY h:mm A", locale="en")
 
     def to_atom_string(self) -> str:
         """
-        Format the instance as ATOM.
+        Форматирует экземпляр как ATOM.
         """
         return self._to_string("atom")
 
     def to_cookie_string(self) -> str:
         """
-        Format the instance as COOKIE.
+        Форматирует экземпляр как COOKIE.
         """
         return self._to_string("cookie", locale="en")
 
     def to_iso8601_string(self) -> str:
         """
-        Format the instance as ISO 8601.
+        Форматирует экземпляр как ISO 8601.
         """
         string = self._to_string("iso8601")
 
@@ -407,55 +406,55 @@ class DateTime(datetime.datetime, Date):
 
     def to_rfc822_string(self) -> str:
         """
-        Format the instance as RFC 822.
+        Форматирует экземпляр как RFC 822.
         """
         return self._to_string("rfc822")
 
     def to_rfc850_string(self) -> str:
         """
-        Format the instance as RFC 850.
+        Форматирует экземпляр как RFC 850.
         """
         return self._to_string("rfc850")
 
     def to_rfc1036_string(self) -> str:
         """
-        Format the instance as RFC 1036.
+        Форматирует экземпляр как RFC 1036.
         """
         return self._to_string("rfc1036")
 
     def to_rfc1123_string(self) -> str:
         """
-        Format the instance as RFC 1123.
+        Форматирует экземпляр как RFC 1123.
         """
         return self._to_string("rfc1123")
 
     def to_rfc2822_string(self) -> str:
         """
-        Format the instance as RFC 2822.
+        Форматирует экземпляр как RFC 2822.
         """
         return self._to_string("rfc2822")
 
     def to_rfc3339_string(self) -> str:
         """
-        Format the instance as RFC 3339.
+        Форматирует экземпляр как RFC 3339.
         """
         return self._to_string("rfc3339")
 
     def to_rss_string(self) -> str:
         """
-        Format the instance as RSS.
+        Форматирует экземпляр как RSS.
         """
         return self._to_string("rss")
 
     def to_w3c_string(self) -> str:
         """
-        Format the instance as W3C.
+        Форматирует экземпляр как W3C.
         """
         return self._to_string("w3c")
 
     def _to_string(self, fmt: str, locale: str | None = None) -> str:
         """
-        Format the instance to a common string format.
+        Форматирует экземпляр в общий строковый формат.
         """
         if fmt not in self._FORMATS:
             raise ValueError(f"Format [{fmt}] is not supported")
@@ -493,10 +492,10 @@ class DateTime(datetime.datetime, Date):
             tzinfo=repr(self.tzinfo),
         )
 
-    # Comparisons
+    # Сравнения
     def closest(self, *dts: datetime.datetime) -> Self:  # type: ignore[override]
         """
-        Get the closest date to the instance.
+        Получите ближайшую дату к экземпляру.
         """
         pdts = [self.instance(x) for x in dts]
 
@@ -504,7 +503,7 @@ class DateTime(datetime.datetime, Date):
 
     def farthest(self, *dts: datetime.datetime) -> Self:  # type: ignore[override]
         """
-        Get the farthest date from the instance.
+        Получите самую дальнюю дату от экземпляра.
         """
         pdts = [self.instance(x) for x in dts]
 
@@ -512,19 +511,19 @@ class DateTime(datetime.datetime, Date):
 
     def is_future(self) -> bool:
         """
-        Determines if the instance is in the future, ie. greater than now.
+        Определяет, находится ли экземпляр в будущем, т.е. больше, чем сейчас.
         """
         return self > self.now(self.timezone)
 
     def is_past(self) -> bool:
         """
-        Determines if the instance is in the past, ie. less than now.
+        Определяет, находится ли экземпляр в прошлом, т.е. меньше, чем сейчас.
         """
         return self < self.now(self.timezone)
 
     def is_long_year(self) -> bool:
         """
-        Determines if the instance is a long year
+        Определяет, является ли экземпляр длинным годом
 
         See link `https://en.wikipedia.org/wiki/ISO_8601#Week_dates`_
         """
@@ -535,8 +534,7 @@ class DateTime(datetime.datetime, Date):
 
     def is_same_day(self, dt: datetime.datetime) -> bool:  # type: ignore[override]
         """
-        Checks if the passed in date is the same day
-        as the instance current day.
+        Проверяет, совпадает ли переданная дата с текущим днем экземпляра.
         """
         dt = self.instance(dt)
 
@@ -546,8 +544,8 @@ class DateTime(datetime.datetime, Date):
         self, dt: datetime.datetime | None = None
     ) -> bool:
         """
-        Check if its the anniversary.
-        Compares the date/month values of the two dates.
+        Проверьте, не годовщина ли это.
+        Сравнивает значения даты/месяца двух дат.
         """
         if dt is None:
             dt = self.now(self.tz)
@@ -770,18 +768,17 @@ class DateTime(datetime.datetime, Date):
 
     def end_of(self, unit: str) -> Self:
         """
-        Returns a copy of the instance with the time reset
-        with the following rules:
+        Возвращает копию экземпляра со сбросом времени по следующим правилам:
 
-        * second: microsecond set to 999999
-        * minute: second set to 59 and microsecond set to 999999
-        * hour: minute and second set to 59 and microsecond set to 999999
-        * day: time to 23:59:59.999999
-        * week: date to last day of the week and time to 23:59:59.999999
-        * month: date to last day of the month and time to 23:59:59.999999
-        * year: date to last day of the year and time to 23:59:59.999999
-        * decade: date to last day of the decade and time to 23:59:59.999999
-        * century: date to last day of century and time to 23:59:59.999999
+        * second: микросекунда установлена на 999999
+        * minute: секунда установлена на 59, а микросекунда установлена на 999999
+        * hour: минута и секунда установлены на 59, а микросекунды установлены на 999999
+        * day: время к 23:59:59.999999
+        * week: дата последнего дня недели и время 23:59:59.999999
+        * month: дата последнего дня месяца и время 23:59:59.999999
+        * year: дата последнего дня года и время 23:59:59.999999
+        * decade: дата последнего дня десятилетия и время 23:59:59.999999
+        * century: дата последнего дня столетия и время 23:59:59.999999
         """
         if unit not in self._MODIFIERS_VALID_UNITS:
             raise ValueError(f'Invalid unit "{unit}" for end_of()')
@@ -923,10 +920,10 @@ class DateTime(datetime.datetime, Date):
 
     def next(self, day_of_week: WeekDay | None = None, keep_time: bool = False) -> Self:
         """
-        Modify to the next occurrence of a given day of the week.
-        If no day_of_week is provided, modify to the next occurrence
-        of the current day of the week.  Use the supplied consts
-        to indicate the desired day_of_week, ex. DateTime.MONDAY.
+        Изменить до следующего появления данного дня недели.
+        Если параметр day_of_week не указан, измените его на следующее вхождение
+        текущего дня недели. Используйте предоставленные константы,
+        чтобы указать желаемый день_недели, например, DateTime.MONDAY.
         """
         if day_of_week is None:
             day_of_week = self.day_of_week
@@ -946,10 +943,10 @@ class DateTime(datetime.datetime, Date):
         self, day_of_week: WeekDay | None = None, keep_time: bool = False
     ) -> Self:
         """
-        Modify to the previous occurrence of a given day of the week.
-        If no day_of_week is provided, modify to the previous occurrence
-        of the current day of the week.  Use the supplied consts
-        to indicate the desired day_of_week, ex. DateTime.MONDAY.
+        Изменить предыдущее появление данного дня недели.
+        Если day_of_week не указан, измените предыдущее вхождение текущего
+        дня недели. Используйте предоставленные константы, чтобы указать
+        желаемый день_недели, например, DateTime.MONDAY.
         """
         if day_of_week is None:
             day_of_week = self.day_of_week
@@ -967,13 +964,12 @@ class DateTime(datetime.datetime, Date):
 
     def first_of(self, unit: str, day_of_week: WeekDay | None = None) -> Self:
         """
-        Returns an instance set to the first occurrence
-        of a given day of the week in the current unit.
-        If no day_of_week is provided, modify to the first day of the unit.
-        Use the supplied consts to indicate the desired day_of_week,
-        ex. DateTime.MONDAY.
+        Возвращает набор экземпляров, соответствующий первому вхождению данного
+        дня недели в текущий блок. Если день_недели не указан, измените его
+        на первый день unit'а. Используйте предоставленные константы,
+        чтобы указать желаемый день_недели, например, DateTime.MONDAY.
 
-        Supported units are month, quarter and year.
+        Поддерживаемые единицы - month, quarter и year.
         """
         if unit not in ["month", "quarter", "year"]:
             raise ValueError(f'Invalid unit "{unit}" for first_of()')
@@ -982,13 +978,12 @@ class DateTime(datetime.datetime, Date):
 
     def last_of(self, unit: str, day_of_week: WeekDay | None = None) -> Self:
         """
-        Returns an instance set to the last occurrence
-        of a given day of the week in the current unit.
-        If no day_of_week is provided, modify to the last day of the unit.
-        Use the supplied consts to indicate the desired day_of_week,
-        ex. DateTime.MONDAY.
+        Возвращает экземпляр, установленный для последнего вхождения данного
+        дня недели в текущем блоке. Если день_недели не указан, измените его
+        на последний день модуля. Используйте предоставленные константы,
+        чтобы указать желаемый день_недели, например, DateTime.MONDAY.
 
-        Supported units are month, quarter and year.
+        Поддерживаемые единицы - month, quarter и year.
         """
         if unit not in ["month", "quarter", "year"]:
             raise ValueError(f'Invalid unit "{unit}" for first_of()')
@@ -997,13 +992,12 @@ class DateTime(datetime.datetime, Date):
 
     def nth_of(self, unit: str, nth: int, day_of_week: WeekDay) -> Self:
         """
-        Returns a new instance set to the given occurrence
-        of a given day of the week in the current unit.
-        If the calculated occurrence is outside the scope of the current unit,
-        then raise an error. Use the supplied consts
-        to indicate the desired day_of_week, ex. DateTime.MONDAY.
+        Возвращает новый набор экземпляров для данного вхождения данного
+        дня недели в текущем блоке. Если вычисленное вхождение выходит за рамки
+        текущего unit'а, возникает ошибка. Используйте предоставленные константы,
+        чтобы указать желаемый день_недели, например, DateTime.MONDAY.
 
-        Supported units are month, quarter and year.
+        Поддерживаемые единицы - month, quarter и year.
         """
         if unit not in ["month", "quarter", "year"]:
             raise ValueError(f'Invalid unit "{unit}" for first_of()')

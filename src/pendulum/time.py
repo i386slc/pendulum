@@ -31,7 +31,7 @@ if TYPE_CHECKING:
 
 class Time(FormattableMixin, time):
     """
-    Represents a time instance as hour, minute, second, microsecond.
+    Представляет экземпляр времени в виде часа, минуты, секунды, микросекунды.
     """
 
     @classmethod
